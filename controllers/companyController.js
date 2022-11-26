@@ -1,6 +1,14 @@
 const companies = [
-  { id: 0, name: "TNI", address: { province: "Bangkok", postcode: "10250" } },
-  { id: 1, name: "AIT", address: { province: "Bangkok", postcode: "10320" } },
+  {
+    id: 0,
+    name: "Slack Technologies",
+    address: { province: "San Francisco, California", postcode: "94105" },
+  },
+  {
+    id: 1,
+    name: "Microsoft",
+    address: { province: "Redmond, Washington", postcode: "98052" },
+  },
   {
     id: 2,
     name: "EXNET",
