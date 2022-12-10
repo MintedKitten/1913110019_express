@@ -1,17 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const companiesSchema = new Schema(
-  {
-    name: String,
-    address: {
-      province: String,
-      postcode: String,
-    },
+const companiesSchema = new Schema({
+  name: String,
+  address: {
+    province: String,
+    postcode: String,
   },
-  { collection: "setting" }
-);
+});
 
-const company = mongoose.model("Company", companiesSchema);
+const company = mongoose.model("Company", companiesSchema, "setting");
 
 module.exports = { companies: company };

@@ -12,6 +12,7 @@ mongoose.connect(`${process.env.MONGO_EXPRESS_STRING}`, {
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const companiesRouter = require("./routes/company");
+const staffRouter = require("./routes/staff");
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/company", companiesRouter);
+app.use("/staff", staffRouter);
 
 module.exports = app;
