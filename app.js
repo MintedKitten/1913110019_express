@@ -5,8 +5,9 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 mongoose.pluralize(null);
 mongoose.connect(`${process.env.MONGO_EXPRESS_STRING}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
+  // useFindAndModify: false,
 });
 
 const indexRouter = require("./routes/index");
