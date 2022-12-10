@@ -2,6 +2,11 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const mongoose = require("mongoose");
+mongoose.connect(`${process.env.MONGO_EXPRESS_STRING}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");

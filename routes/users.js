@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userController");
+const { index, bio } = require("../controllers/userController");
 
 /* GET users listing. */
-router.get("/", userController.index);
+router.get("/", index);
 
-router.get("/bio", userController.bio);
+router.get("/bio", bio);
 
 module.exports = router;
