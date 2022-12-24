@@ -25,7 +25,7 @@ const insert = async (req, res, next) => {
   console.log(result);
   return res
     .status(200)
-    .json({ message: "Insert Successful: " + (result != null) });
+    .json({ message: `Insert Successful: ${(result != null)}` });
 };
 
 const update = async (req, res, next) => {
@@ -41,7 +41,7 @@ const update = async (req, res, next) => {
     }
     return res.status(200).json({ message: "Update Successful" });
   } catch (e) {
-    return res.status(404).end("Error: " + e.message);
+    return res.status(404).end(`Error: ${e.message}`);
   }
 };
 
@@ -55,7 +55,7 @@ const remove = async (req, res, next) => {
     }
     return res.status(200).json({ data: result });
   } catch (e) {
-    return res.status(404).end("Error: " + e.message);
+    return res.status(404).end(`Error: ${e.message}`);
   }
 };
 

@@ -14,6 +14,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const companiesRouter = require("./routes/company");
 const staffRouter = require("./routes/staff");
+const shopRouter = require("./routes/shop");
 
 const app = express();
 
@@ -27,5 +28,6 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/company", companiesRouter);
 app.use("/staff", staffRouter);
+app.use("/shop", shopRouter);
 
 module.exports = app;
