@@ -7,8 +7,22 @@ const menuSchema = new Schema(
     price: { type: Number },
     shopId: { type: Schema.Types.ObjectId, ref: "Shop" },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    virtuals: {
+      price_vat: {
+        get() {
+          return this.price * 1.07;
+        },
+      },
+    },
+    toJSON: { virtuals: true },
+  }
 );
+
+// menuSchema.virtual("price_vat").get(function () {
+//   return this.price * 1.07;
+// });
 
 const menu = mongoose.model("Menu", menuSchema, "menus");
 
