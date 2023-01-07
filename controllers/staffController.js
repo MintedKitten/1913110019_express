@@ -7,12 +7,16 @@ const get = async (req, res, next) => {
 };
 
 const post = async (req, res, next) => {
-  const { name, salary } = req.body;
-  let staffinsert = staff({ name: name, salary: salary });
+  const { name, salary, photo } = req.body;
+  let staffinsert = staff({
+    name: name,
+    salary: salary,
+    photo: await saveImageToDisk(photo),
+  });
   const result = await staffinsert.save();
   return res
     .status(200)
-    .json({ message: "Insert Successful: " + (result != null) });
+    .json({ message: `Insert Successful: ${(result != null)}` });
 };
 
 const show = async (req, res, next) => {
@@ -24,7 +28,7 @@ const show = async (req, res, next) => {
     }
     return res.status(200).json({ data: staffResult });
   } catch (e) {
-    return res.status(404).end("Error: " + e.message);
+    return res.status(404).end(`Error: ${e.message}`);
   }
 };
 
@@ -37,7 +41,7 @@ const remove = async (req, res, next) => {
     }
     return res.status(200).json({ data: staffResult });
   } catch (e) {
-    return res.status(404).end("Error: " + e.message);
+    return res.status(404).end(`Error: ${e.message}`);
   }
 };
 
@@ -54,9 +58,51 @@ const update = async (req, res, next) => {
     }
     return res.status(200).json({ message: "Update Successful" });
   } catch (e) {
-    return res.status(404).end("Error: " + e.message);
+    return res.status(404).end(`Error: ${e.message}`);
   }
 };
+
+async function saveImageToDisk(baseImage) {
+  //หา path จริงของโปรเจค
+  const projectPath = process.cwd();
+  //โฟลเดอร์และ path ของการอัปโหลด
+  const uploadPath = `${projectPath}/public/images/`;
+
+  //หานามสกุลไฟล์
+  const ext = baseImage.substring(
+    baseImage.indexOf("/") + 1,
+    baseImage.indexOf(";base64")
+  );
+
+  //สุ่มชื่อไฟล์ใหม่ พร้อมนามสกุล
+  let filename = "";
+  if (ext === "svg+xml") {
+    filename = `${uuidv4.v4()}.svg`;
+  } else {
+    filename = `${uuidv4.v4()}.${ext}`;
+  }
+
+  //Extract base64 data ออกมา
+  let image = decodeBase64Image(baseImage);
+
+  //เขียนไฟล์ไปไว้ที่ path
+  await writeFileAsync(uploadPath + filename, image.data, "base64");
+  //return ชื่อไฟล์ใหม่ออกไป
+  return filename;
+}
+
+function decodeBase64Image(base64Str) {
+  var matches = base64Str.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+  var image = {};
+  if (!matches || matches.length !== 3) {
+    throw new Error("Invalid base64 string");
+  }
+
+  image.type = matches[1];
+  image.data = matches[2];
+
+  return image;
+}
 
 module.exports = {
   staff: get,

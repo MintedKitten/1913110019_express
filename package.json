@@ -14,7 +14,8 @@
     "esbuild": "^0.16.3",
     "express": "^4.17.3",
     "mongoose": "^6.8.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
