@@ -2,11 +2,12 @@ const { shop } = require("../models/shop");
 const { menu } = require("../models/menu");
 const { join } = require("path");
 const { ObjectId } = require("bson");
+const { DOMAIN, PORT } = require("../config");
 
 const index = async (req, res, next) => {
   const shops = await shop.find().sort({ _id: "desc" });
   const shopsWithPhotoDomain = shops.map((shop) => {
-    shop.photo = join(req.headers.host, "images", shop.photo);
+    shop.photo = `http://${DOMAIN}:${PORT}/images/${shop.photo}`;
     return {
       id: shop._id,
       name: shop.name,

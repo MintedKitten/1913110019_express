@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config ./bin/www dotenv_config_path=.env.local",
-    "dev": "nodemon -r dotenv/config ./bin/www dotenv_config_path=.env.local"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "bson": "^4.7.0",
