@@ -4,19 +4,19 @@ const { staff } = require("../models/staff");
 
 const get = async (req, res, next) => {
   const staffResult = await staff.find().sort({ _id: "desc" });
-  const staffWithPhotoDomain = staffResult.map((staff)=>{
-    if(staff.photo){
+  const staffWithPhotoDomain = staffResult.map((staff) => {
+    if (staff.photo) {
       staff.photo = `${DOMAIN}/images/${staff.photo}`;
-		} else {
-			staff.photo = `${DOMAIN}/images/nopic.png`;
-		}
+    } else {
+      staff.photo = `${DOMAIN}/images/nopic.png`;
+    }
     return {
-			id: staff._id,
-			name: staff.name,
-			photo: staff.photo,
-			salary: staff.salary,
-		};
-  })
+      id: staff._id,
+      name: staff.name,
+      photo: staff.photo,
+      salary: staff.salary,
+    };
+  });
   return res.status(200).json({ data: staffWithPhotoDomain });
 };
 
@@ -31,7 +31,7 @@ const post = async (req, res, next) => {
   const result = await staffinsert.save();
   return res
     .status(200)
-    .json({ message: `Insert Successful: ${(result != null)}` });
+    .json({ message: `Insert Successful: ${result != null}` });
 };
 
 const show = async (req, res, next) => {
