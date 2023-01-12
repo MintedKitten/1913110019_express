@@ -1,17 +1,32 @@
 const { ObjectId } = require("bson");
+const { DOMAIN } = require("../config");
 const { staff } = require("../models/staff");
 
 const get = async (req, res, next) => {
   const staffResult = await staff.find().sort({ _id: "desc" });
-  return res.status(200).json({ data: staffResult });
+  const staffWithPhotoDomain = staffResult.map((staff)=>{
+    if(staff.photo){
+      staff.photo = `${DOMAIN}/images/${staff.photo}`;
+		} else {
+			staff.photo = `${DOMAIN}/images/nopic.png`;
+		}
+    return {
+			id: staff._id,
+			name: staff.name,
+			photo: staff.photo,
+			salary: staff.salary,
+		};
+  })
+  return res.status(200).json({ data: staffWithPhotoDomain });
 };
 
 const post = async (req, res, next) => {
   const { name, salary, photo } = req.body;
+  const photoName = photo ? await saveImageToDisk(photo) : undefined;
   let staffinsert = staff({
     name: name,
     salary: salary,
-    photo: await saveImageToDisk(photo),
+    photo: photoName,
   });
   const result = await staffinsert.save();
   return res
