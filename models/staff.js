@@ -10,4 +10,4 @@ const staffSchema = new Schema({
 
 const staff = mongoose.model("Staff", staffSchema, "staff");
 
-module.exports = { staff: staff };
+module.exports = { staff };

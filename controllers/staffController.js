@@ -2,7 +2,7 @@ const { ObjectId } = require("bson");
 const { DOMAIN } = require("../config");
 const { staff } = require("../models/staff");
 
-const get = async (req, res, next) => {
+const getstaff = async (req, res, next) => {
   const staffResult = await staff.find().sort({ _id: "desc" });
   const staffWithPhotoDomain = staffResult.map((staff) => {
     if (staff.photo) {
@@ -20,7 +20,7 @@ const get = async (req, res, next) => {
   return res.status(200).json({ data: staffWithPhotoDomain });
 };
 
-const post = async (req, res, next) => {
+const poststaff = async (req, res, next) => {
   const { name, salary, photo } = req.body;
   const photoName = photo ? await saveImageToDisk(photo) : undefined;
   let staffinsert = staff({
@@ -34,7 +34,7 @@ const post = async (req, res, next) => {
     .json({ message: `Insert Successful: ${result != null}` });
 };
 
-const show = async (req, res, next) => {
+const showstaff = async (req, res, next) => {
   try {
     const id = req.params.id;
     const staffResult = await staff.findOne({ _id: new ObjectId(id) });
@@ -47,7 +47,7 @@ const show = async (req, res, next) => {
   }
 };
 
-const remove = async (req, res, next) => {
+const removestaff = async (req, res, next) => {
   try {
     const id = req.params.id;
     const staffResult = await staff.deleteOne({ _id: new ObjectId(id) });
@@ -60,7 +60,7 @@ const remove = async (req, res, next) => {
   }
 };
 
-const update = async (req, res, next) => {
+const updatestaff = async (req, res, next) => {
   try {
     const id = req.params.id;
     const { name, salary } = req.body;
@@ -120,9 +120,9 @@ function decodeBase64Image(base64Str) {
 }
 
 module.exports = {
-  staff: get,
-  insert: post,
-  show: show,
-  remove: remove,
-  update: update,
+  getstaff,
+  poststaff,
+  showstaff,
+  removestaff,
+  updatestaff,
 };

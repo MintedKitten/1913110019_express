@@ -25,7 +25,7 @@ const insert = async (req, res, next) => {
   console.log(result);
   return res
     .status(200)
-    .json({ message: `Insert Successful: ${(result != null)}` });
+    .json({ message: `Insert Successful: ${result != null}` });
 };
 
 const update = async (req, res, next) => {
@@ -60,9 +60,9 @@ const remove = async (req, res, next) => {
 };
 
 module.exports = {
-  getall: showall,
-  getone: showone,
-  insert: insert,
-  update: update,
-  remove: remove,
+  showall,
+  showone,
+  insert,
+  update,
+  remove,
 };

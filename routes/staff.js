@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const {
-  staff,
-  insert,
-  show,
-  remove,
-  update,
+  getstaff,
+  poststaff,
+  showstaff,
+  removestaff,
+  updatestaff,
 } = require("../controllers/staffController");
 
-router.get("/", staff);
-router.get("/:id", show);
-router.put("/:id", update);
-router.delete("/:id", remove);
-router.post("/", insert);
+router.get("/", getstaff);
+router.get("/:id", showstaff);
+router.put("/:id", updatestaff);
+router.delete("/:id", removestaff);
+router.post("/", poststaff);
 
 module.exports = router;
