@@ -16,13 +16,16 @@ const usersRouter = require("./routes/users");
 const companiesRouter = require("./routes/company");
 const staffRouter = require("./routes/staff");
 const shopRouter = require("./routes/shop");
+const { errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
 
 app.use(logger("dev"));
-app.use(express.json({
-  limit: "50mb"
-}));
+app.use(
+  express.json({
+    limit: "50mb",
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -32,5 +35,7 @@ app.use("/user", usersRouter);
 app.use("/company", companiesRouter);
 app.use("/staff", staffRouter);
 app.use("/shop", shopRouter);
+
+app.use(errorHandler);
 
 module.exports = app;
