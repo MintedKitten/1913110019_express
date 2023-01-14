@@ -19,11 +19,11 @@ const register = async (req, res, next) => {
     let userinsert = new user();
     userinsert.name = name;
     userinsert.email = email;
-    userinsert.password = password;
+    userinsert.password = await userinsert.encryptPassword(password);
     await userinsert.save();
     return res.status(200).json({ message: "Register successful!" });
   } catch (e) {
-    return res.status(404).json({ message: "Register Error" });
+    return res.status(404).json({ message: `Register Error: ${e.message}` });
   }
 };
 
