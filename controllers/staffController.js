@@ -1,4 +1,5 @@
 const { ObjectId } = require("bson");
+const { validationResult } = require("express-validator");
 const { DOMAIN } = require("../config");
 const { staff } = require("../models/staff");
 
@@ -21,17 +22,29 @@ const getstaff = async (req, res, next) => {
 };
 
 const poststaff = async (req, res, next) => {
-  const { name, salary, photo } = req.body;
-  const photoName = photo ? await saveImageToDisk(photo) : undefined;
-  let staffinsert = staff({
-    name: name,
-    salary: salary,
-    photo: photoName,
-  });
-  const result = await staffinsert.save();
-  return res
-    .status(200)
-    .json({ message: `Insert Successful: ${result != null}` });
+  try {
+    const { name, salary, photo } = req.body;
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error("Input is incorrect");
+      error.statusCode = 422;
+      error.validation = errors.array();
+      throw error;
+    }
+    const photoName = photo ? await saveImageToDisk(photo) : undefined;
+    let staffinsert = staff({
+      name: name,
+      salary: salary,
+      photo: photoName,
+    });
+    const result = await staffinsert.save();
+    return res
+      .status(200)
+      .json({ message: `Insert Successful: ${result != null}` });
+  } catch (e) {
+    next(e);
+  }
 };
 
 const showstaff = async (req, res, next) => {

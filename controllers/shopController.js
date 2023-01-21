@@ -5,6 +5,7 @@ const { DOMAIN } = require("../config");
 const fs = require("fs");
 const uuidv4 = require("uuid");
 const { promisify } = require("util");
+const { validationResult } = require("express-validator");
 const writeFileAsync = promisify(fs.writeFile);
 
 const index = async (req, res, next) => {
@@ -38,17 +39,29 @@ const getMenu = async (req, res, next) => {
 };
 
 const addShop = async (req, res, next) => {
-  const { name, location, photo } = req.body;
-  const photoName = photo ? await saveImageToDisk(photo) : undefined;
-  let shopinsert = shop({
-    name: name,
-    location: location,
-    photo: photoName,
-  });
-  const result = await shopinsert.save();
-  return res
-    .status(201)
-    .json({ message: `Insert Successful: ${result != null}` });
+  try {
+    const { name, location, photo } = req.body;
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error("Input is incorrect");
+      error.statusCode = 422;
+      error.validation = errors.array();
+      throw error;
+    }
+    const photoName = photo ? await saveImageToDisk(photo) : undefined;
+    let shopinsert = shop({
+      name: name,
+      location: location,
+      photo: photoName,
+    });
+    const result = await shopinsert.save();
+    return res
+      .status(201)
+      .json({ message: `Insert Successful: ${result != null}` });
+  } catch (e) {
+    next(e);
+  }
 };
 
 async function saveImageToDisk(baseImage) {

@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const { user } = require("../models/user");
 
 const index = (req, res, next) => {
@@ -14,8 +15,17 @@ const bio = (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-  const { name, email, password } = req.body;
   try {
+    const { name, email, password } = req.body;
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error("Input is incorrect");
+      error.statusCode = 422;
+      error.validation = errors.array();
+      throw error;
+    }
+
     const isEmailExist = await user.findOne({ email: email });
     if (isEmailExist) {
       const error = new Error("Register Error: Email already exists");
