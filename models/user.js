@@ -22,6 +22,10 @@ const userSchema = new Schema(
         const hashPassword = await bcrypt.hash(password, salt);
         return hashPassword;
       },
+      async checkPassword(password) {
+        const isValid = await bcrypt.compare(password, this.password);
+        return isValid;
+      },
     },
   }
 );
@@ -30,6 +34,11 @@ const userSchema = new Schema(
 //   const salt = await bcrypt.genSalt(5);
 //   const hashPassword = await bcrypt.hash(password, salt);
 //   return hashPassword;
+// };
+
+// userSchema.methods.checkPassword = async function (password) {
+//   const isValid = await bcrypt.compare(password, this.password);
+//   return isValid;
 // };
 
 const user = mongoose.model("User", userSchema, "users");

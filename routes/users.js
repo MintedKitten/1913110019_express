@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { index, bio, register } = require("../controllers/userController");
+const {
+  index,
+  bio,
+  register,
+  login,
+} = require("../controllers/userController");
 const { body } = require("express-validator");
 
 router.get("/", index);
@@ -23,6 +28,24 @@ router.post(
       .withMessage("Password length must be as least 5 characters"),
   ],
   register
+);
+router.post(
+  "/login",
+  [
+    body("email")
+      .not()
+      .isEmpty()
+      .withMessage("Email cannot be empty")
+      .isEmail()
+      .withMessage("Email is not correctly formatted"),
+    body("password")
+      .not()
+      .isEmpty()
+      .withMessage("Password cannot be empty")
+      .isLength({ min: 5 })
+      .withMessage("Password length must be as least 5 characters"),
+  ],
+  login
 );
 
 module.exports = router;
