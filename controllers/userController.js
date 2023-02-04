@@ -81,8 +81,6 @@ const login = async (req, res, next) => {
     const token = jwt.sign(
       {
         id: isUserExist._id,
-        name: isUserExist.name,
-        role: isUserExist.role,
       },
       JWT_SECRET,
       { expiresIn: "5 days" }
@@ -99,4 +97,11 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { index, bio, register, login };
+const profile = async (req, res, next) => {
+  const { role, name, email } = req.user;
+  return res
+    .status(200)
+    .json({ data: { name: name, email: email, role: role } });
+};
+
+module.exports = { index, bio, register, login, profile };

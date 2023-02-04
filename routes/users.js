@@ -5,8 +5,10 @@ const {
   bio,
   register,
   login,
+  profile,
 } = require("../controllers/userController");
 const { body } = require("express-validator");
+const { isLogin } = require("../middleware/passwordJWT");
 
 router.get("/", index);
 router.get("/bio", bio);
@@ -47,5 +49,6 @@ router.post(
   ],
   login
 );
+router.get("/me", [isLogin], profile);
 
 module.exports = router;

@@ -7,8 +7,10 @@ const {
   update,
   remove,
 } = require("../controllers/companyController");
+const { isAdmin } = require("../middleware/checkAdmin");
+const { isLogin } = require("../middleware/passwordJWT");
 
-router.get("/", showall);
+router.get("/", [isLogin, isAdmin], showall);
 router.get("/:id", showone);
 router.put("/:id", update);
 router.delete("/:id", remove);
