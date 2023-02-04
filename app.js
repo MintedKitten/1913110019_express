@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const { DBURI } = require("./config");
+const passport = require("passport");
+
 mongoose.pluralize(null);
 mongoose.connect(`${DBURI}`, {
   // useNewUrlParser: true,
@@ -29,6 +31,7 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(passport.initialize());
 
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
