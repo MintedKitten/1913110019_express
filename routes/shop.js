@@ -24,9 +24,9 @@ router.post(
     body("location.lgn")
       .not()
       .isEmpty()
-      .withMessage("Lat in Location cannot be empty.")
+      .withMessage("Lgn in Location cannot be empty.")
       .isNumeric()
-      .withMessage("Lat in Location must be a number"),
+      .withMessage("Lgn in Location must be a number"),
   ],
   addShop
 );
